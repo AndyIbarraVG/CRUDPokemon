@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  height: 100vh;
+  background: url("https://r4.wallpaperflare.com/wallpaper/738/270/358/pokemon-pokemon-heartgold-and-soulsilver-pixel-art-slowpoke-pokemon-hd-wallpaper-d4648266d11fed572b6db008d0da5acd.jpg") no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  gap: 40px;
+}
+
+.glass {
+  flex: 1;
+  padding: 30px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.068);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border: 1px solid rgb(255, 255, 255);
+  color: white;
+}
+
+h1, h3 {
+  margin-top: 0;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff512f, #dd2476);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.list-section {
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+.list-section div {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  color: black;
+}
+
+.pokemon-card {
+    display: flex;
+    justify-content: space-between; /* separa texto e imagen */
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 12px;
+
+}
+
+.pokemon-info {
+    flex: 1;
+}
+
+.pokemon-image {
+    width: 200px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pokemon-image img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+}
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pokédex Glass</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="glass form-section">
+      <h1>Registrar Pokémon</h1>
+
+      <form id="pokemonForm">
+        <input type="text" id="name" placeholder="Nombre" required>
+        <input type="text" id="type" placeholder="Tipo (Fire, Water...)">
+
+        <h3>Estadísticas</h3>
+        <input type="number" id="hp" placeholder="HP">
+        <input type="number" id="attack" placeholder="Attack">
+        <input type="number" id="defense" placeholder="Defense">
+        <input type="number" id="speed" placeholder="Speed">
+
+        <button type="submit">Guardar</button>
+      </form>
+    </div>
+
+    <div class="glass list-section">
+      <h1>Pokémon Guardados</h1>
+      <div id="pokemonList"></div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
