@@ -11,6 +11,8 @@ const attackInput = document.getElementById("attack");
 const defenseInput = document.getElementById("defense");
 const speedInput = document.getElementById("speed");
 
+let editingId = null;
+
 roleInput.addEventListener("change", () => {
   if (roleInput.value === "player") {
     biomeInput.disabled = true;
@@ -42,7 +44,7 @@ form.addEventListener("submit", async (e) => {
 
   if (!data.name || !data.role ||
     !data.stats.hp || !data.stats.attack ||
-    !data.stats.defense || !data.stats.speed) {
+    !data.stats.defense || !data.stats.speed || !data.biome) {
   alert("Todos los campos deben completarse");
   return;
   }
@@ -50,16 +52,25 @@ form.addEventListener("submit", async (e) => {
 
   console.log("Enviando:", data);
 
-  await fetch("/pokemon", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  if (editingId) {
+  await fetch(`/pokemon/${editingId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
 
-  form.reset();
-  loadPokemons();
+  editingId = null;
+
+} else {
+  await fetch("/pokemon", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+}
+
+loadPokemons();
+form.reset();
 });
 
 // Cargar lista
@@ -67,14 +78,15 @@ async function loadPokemons() {
   const res = await fetch("/pokemon");
   const pokemons = await res.json();
 
-  list.innerHTML = pokemons.map(p => {
+  window.currentPokemons = pokemons;
 
+  list.innerHTML = pokemons.map(p => {
     const pokemonName = p.name.toLowerCase().replace(/\s+/g, "-");
     const imageUrl = `https://img.pokemondb.net/sprites/scarlet-violet/normal/${pokemonName}.png`;
 
-    return `        
+    return `
       <div class="pokemon-card">
-        <div class="pokemon-info">
+        <div>
           <strong>${p.name}</strong><br>
           Tipo: ${p.type.join(", ")}<br>
           Rol: ${p.role}<br>
@@ -83,13 +95,58 @@ async function loadPokemons() {
           ATK: ${p.stats.attack} |
           DEF: ${p.stats.defense} |
           SPD: ${p.stats.speed}
+          <br><br>
+
+          <button class="edit-btn" data-id="${p._id}">Editar</button>
+          <button class="delete-btn" data-id="${p._id}">Eliminar</button>
         </div>
-        <div class="pokemon-image">
-          <img src="${imageUrl}" alt="${p.name}">
-        </div>
+        <img src="${imageUrl}" width="120">
       </div>
     `;
   }).join("");
+
+  // 🔥 Agregar listeners después de renderizar
+  document.querySelectorAll(".delete-btn").forEach(button => {
+    button.addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+
+      if (!confirm("¿Seguro que quieres eliminar este Pokémon?")) return;
+
+      await fetch(`/pokemon/${id}`, {
+        method: "DELETE"
+      });
+
+      loadPokemons();
+    });
+  });
+
+  document.querySelectorAll(".edit-btn").forEach(button => {
+    button.addEventListener("click", (e) => {
+      const id = e.target.dataset.id;
+      editPokemon(id);
+    });
+  });
 }
+
+
+function editPokemon(id) {
+  const pokemon = window.currentPokemons.find(p => p._id === id);
+  if (!pokemon) return;
+
+  editingId = id;
+
+  nameInput.value = pokemon.name;
+  typeInput.value = pokemon.type.join(", ");
+  roleInput.value = pokemon.role;
+  biomeInput.value = pokemon.biome || "";
+
+  hpInput.value = pokemon.stats.hp;
+  attackInput.value = pokemon.stats.attack;
+  defenseInput.value = pokemon.stats.defense;
+  speedInput.value = pokemon.stats.speed;
+}
+
+
+
 // Cargar al iniciar
 loadPokemons();

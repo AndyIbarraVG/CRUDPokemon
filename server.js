@@ -9,6 +9,7 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 // Rutas
 app.use("/pokemon", pokemonRoutes);
@@ -20,7 +21,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/pokemonSR")
     app.listen(3000, () => {
       console.log("Servidor corriendo en puerto 3000");
     });
-    app.use(express.static("public"));
   })
   .catch((error) => {
     console.error("Error conectando a MongoDB:", error);
