@@ -15,6 +15,20 @@
       <form id="pokemonForm">
         <input type="text" id="name" placeholder="Nombre" required>
         <input type="text" id="type" placeholder="Tipo (Fire, Water...)">
+        <select id="role" required>
+          <option value="">Seleccione Rol</option>
+          <option value="player">Player</option>
+          <option value="enemy">Enemy</option>
+        </select>
+
+        <select id="biome">
+          <option value="">Seleccione Bioma</option>
+          <option value="fire">Fire</option>
+          <option value="forest">Forest</option>
+          <option value="ice">Ice</option>
+          <option value="water">Water</option>
+        </select>
+
 
         <h3>Estadísticas</h3>
         <input type="number" id="hp" placeholder="HP">

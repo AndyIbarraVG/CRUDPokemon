@@ -4,20 +4,34 @@ const list = document.getElementById("pokemonList");
 // Inputs
 const nameInput = document.getElementById("name");
 const typeInput = document.getElementById("type");
+const roleInput = document.getElementById("role");
+const biomeInput = document.getElementById("biome");
 const hpInput = document.getElementById("hp");
 const attackInput = document.getElementById("attack");
 const defenseInput = document.getElementById("defense");
 const speedInput = document.getElementById("speed");
 
+roleInput.addEventListener("change", () => {
+  if (roleInput.value === "player") {
+    biomeInput.disabled = true;
+    biomeInput.value = "";
+  } else {
+    biomeInput.disabled = false;
+  }
+});
+
+
 // Evento submit
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  const data = {
+  
+    const data = {
     name: nameInput.value.trim(),
     type: typeInput.value
       ? typeInput.value.split(",").map(t => t.trim())
       : [],
+    role: roleInput.value,
+    biome: roleInput.value === "enemy" ? biomeInput.value : undefined,
     stats: {
       hp: Number(hpInput.value),
       attack: Number(attackInput.value),
@@ -25,6 +39,14 @@ form.addEventListener("submit", async (e) => {
       speed: Number(speedInput.value)
     }
   };
+
+  if (!data.name || !data.role ||
+    !data.stats.hp || !data.stats.attack ||
+    !data.stats.defense || !data.stats.speed) {
+  alert("Todos los campos deben completarse");
+  return;
+  }
+
 
   console.log("Enviando:", data);
 
@@ -55,6 +77,8 @@ async function loadPokemons() {
         <div class="pokemon-info">
           <strong>${p.name}</strong><br>
           Tipo: ${p.type.join(", ")}<br>
+          Rol: ${p.role}<br>
+          ${p.role === "enemy" ? `Bioma: ${p.biome}<br>` : ""}
           HP: ${p.stats.hp} |
           ATK: ${p.stats.attack} |
           DEF: ${p.stats.defense} |
