@@ -44,7 +44,7 @@ form.addEventListener("submit", async (e) => {
 
   if (!data.name || !data.role ||
     !data.stats.hp || !data.stats.attack ||
-    !data.stats.defense || !data.stats.speed || !data.biome) {
+    !data.stats.defense || !data.stats.speed || data.role === "enemy" && !data.biome) {
   alert("Todos los campos deben completarse");
   return;
   }
@@ -100,7 +100,7 @@ async function loadPokemons() {
           <button class="edit-btn" data-id="${p._id}">Editar</button>
           <button class="delete-btn" data-id="${p._id}">Eliminar</button>
         </div>
-        <img src="${imageUrl}" width="120">
+        <img src="${imageUrl}" width="150">
       </div>
     `;
   }).join("");
